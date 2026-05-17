@@ -3,6 +3,8 @@ package handlers
 import (
 	"crypto/rand"
 	"encoding/hex"
+	"log"
+	_ "log"
 	"net/http"
 	"phoenix-server/db"
 	"phoenix-server/models"
@@ -120,12 +122,17 @@ func GetMeetingByID(c *gin.Context) {
 
 	var m models.Meeting
 	err := db.DB.QueryRow(`
-        SELECT id, title, description, location, start_date, speaker_id, created_at, status
+        SELECT id, title, description, location, start_date, speaker_id, created_at, status, presentation_url
         FROM meetings
         WHERE id = ?
-    `, meetingID).Scan(&m.ID, &m.Title, &m.Description, &m.Location, &m.StartDate, &m.SpeakerID, &m.CreatedAt, &m.Status)
+    `, meetingID).Scan(
+		&m.ID, &m.Title, &m.Description, &m.Location,
+		&m.StartDate, &m.SpeakerID, &m.CreatedAt, &m.Status,
+		&m.PresentationURL,
+	)
 
 	if err != nil {
+		log.Printf(err.Error())
 		c.JSON(http.StatusNotFound, gin.H{"error": "Встреча не найдена"})
 		return
 	}

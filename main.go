@@ -23,6 +23,10 @@ func main() {
 	api.Use(middleware.AuthMiddleware())
 	{
 		api.GET("/profile", handlers.GetProfile)
+		api.POST("/meetings", handlers.CreateMeeting)
+		api.GET("/meetings", handlers.GetAllMeetings)
+		api.GET("/meetings/my", handlers.GetMyMeetings)
+		api.GET("/meetings/:id", handlers.GetMeetingByID)
 	}
 
 	r.Run(":8080")

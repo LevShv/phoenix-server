@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	_ "log"
 	"net/http"
 	"phoenix-server/db"
 	"phoenix-server/models"

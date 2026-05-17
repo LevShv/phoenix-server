@@ -34,7 +34,7 @@ func InitDB() {
 			log.Fatalf("Ошибка выполнения sql %s: %v", file, err)
 		}
 
-		log.Printf("✓ Выполнен: %s", file)
+		log.Printf("Выполнен: %s", file)
 	}
 }
 

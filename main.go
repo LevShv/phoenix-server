@@ -1,11 +1,20 @@
 package main
 
-//	"log"
-//  "meeting-sever/db"
-//	"meeting-sever/handlers"
-//	"meeting-server/middleware"
-//	"github.com/gin-gonic/gin"
+import (
+	_ "log"
+	"phoenix-server/db"
+	//	"github.com/gin-gonic/gin"
+	//
+	// "phoenix-server/handlers"
+	// "phoenix-server/middleware"
+)
 
 func main() {
+	db.InitDB()
+	defer db.Close()
+
+	//r := gin.Default();
+
+	//r.POST(/"register")
 
 }

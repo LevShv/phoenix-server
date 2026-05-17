@@ -33,6 +33,11 @@ func main() {
 		api.GET("/meetings/:id/polls", handlers.GetMeetingPolls)
 		api.DELETE("/meetings/:id/polls/:poll_id", handlers.DeletePoll)
 
+		api.POST("/meetings/:id/presentation", handlers.UploadPresentation)
+		api.GET("/meetings/:id/presentation", handlers.GetPresentation)
+		api.GET("/meetings/:id/presentation/info", handlers.GetPresentationInfo)
+		api.DELETE("/meetings/:id/presentation", handlers.DeletePresentation)
+
 	}
 
 	r.Run(":8080")

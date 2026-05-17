@@ -1,0 +1,31 @@
+# Compiled files
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# Binary file
+meeting-server
+
+# Dependencies
+/vendor/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Database (локальная БД не нужна в репозитории)
+app.db
+*.db
+
+# Logs
+*.log

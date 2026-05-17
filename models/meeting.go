@@ -9,6 +9,7 @@ type Meeting struct {
 	SpeakerID   int    `json:"speaker_id"`
 	CreatedAt   int64  `json:"created_at"`
 	Status      string `json:"status"`
+	Polls       []Poll `json:"polls,omitempty"`
 }
 
 type CreateMeetingRequest struct {

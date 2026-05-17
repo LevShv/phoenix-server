@@ -9,6 +9,7 @@
 
 # Binary file
 meeting-server
+__debug*
 
 # Dependencies
 /vendor/

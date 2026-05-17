@@ -130,5 +130,22 @@ func GetMeetingByID(c *gin.Context) {
 		return
 	}
 
+	rows, err := db.DB.Query(`
+        SELECT id, title, url, created_at
+        FROM polls
+        WHERE meeting_id = ?
+        ORDER BY created_at DESC
+    `, meetingID)
+	if err == nil {
+		defer rows.Close()
+		for rows.Next() {
+			var p models.Poll
+			if err := rows.Scan(&p.ID, &p.Title, &p.URL, &p.CreatedAt); err == nil {
+				p.MeetingID = meetingID
+				m.Polls = append(m.Polls, p)
+			}
+		}
+	}
+
 	c.JSON(http.StatusOK, m)
 }

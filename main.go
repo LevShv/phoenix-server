@@ -8,6 +8,11 @@ import (
 
 	"phoenix-server/handlers"
 	"phoenix-server/middleware"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
+	_ "phoenix-server/docs"
 )
 
 func main() {
@@ -38,7 +43,13 @@ func main() {
 		api.GET("/meetings/:id/presentation/info", handlers.GetPresentationInfo)
 		api.DELETE("/meetings/:id/presentation", handlers.DeletePresentation)
 
+		api.POST("/meetings/:id/photo", handlers.UploadMeetingPhoto)
+		api.GET("/meetings/:id/photo", handlers.GetMeetingPhoto)
+		api.GET("/meetings/:id/photo/info", handlers.GetMeetingPhotoInfo)
+		api.DELETE("/meetings/:id/photo", handlers.DeleteMeetingPhoto)
+
 	}
 
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.Run(":8080")
 }

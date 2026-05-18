@@ -122,13 +122,13 @@ func GetMeetingByID(c *gin.Context) {
 
 	var m models.Meeting
 	err := db.DB.QueryRow(`
-        SELECT id, title, description, location, start_date, speaker_id, created_at, status, presentation_url
+        SELECT id, title, description, location, start_date, speaker_id, created_at, status, presentation_url, photo_url
         FROM meetings
         WHERE id = ?
     `, meetingID).Scan(
 		&m.ID, &m.Title, &m.Description, &m.Location,
 		&m.StartDate, &m.SpeakerID, &m.CreatedAt, &m.Status,
-		&m.PresentationURL,
+		&m.PresentationURL, &m.PhotoURL,
 	)
 
 	if err != nil {

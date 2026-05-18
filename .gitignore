@@ -31,3 +31,6 @@ app.db
 
 # Logs
 *.log
+
+uploads/
+docs/

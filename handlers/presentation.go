@@ -11,6 +11,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// UploadPresentation godoc
+// @Summary      Загрузить презентацию
+// @Security     BearerAuth
+// @Param        id path string true "ID встречи"
+// @Param        presentation formData file true "PDF файл"
+// @Router       /api/meetings/{id}/presentation [post]
 func UploadPresentation(c *gin.Context) {
 	meetingID := c.Param("id")
 	userID := c.GetInt("user_id")
@@ -52,20 +58,20 @@ func UploadPresentation(c *gin.Context) {
 	}
 
 	if oldURL != nil && *oldURL != "" {
-		oldPath := "." + *oldURL
+		oldPath := "./" + *oldURL
 		os.Remove(oldPath)
 	}
 
 	timestamp := time.Now().Unix()
 	uniqueFilename := fmt.Sprintf("%s_%d%s", meetingID, timestamp, ext)
-	filePath := filepath.Join("uploads/presentations", uniqueFilename)
+	filePath := filepath.Join("uploads/meetings/presentations/", uniqueFilename)
 
 	if err := c.SaveUploadedFile(file, filePath); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка сохранения файла"})
 		return
 	}
 
-	presentationURL := "/uploads/presentations/" + uniqueFilename
+	presentationURL := "uploads/meetings/presentations/" + uniqueFilename
 	_, err = db.DB.Exec("UPDATE meetings SET presentation_url = ? WHERE id = ?", presentationURL, meetingID)
 	if err != nil {
 		os.Remove(filePath)
@@ -95,7 +101,13 @@ func GetPresentation(c *gin.Context) {
 		return
 	}
 
-	filePath := "." + *presentationURL
+	filePath := "./" + *presentationURL
+	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+		db.DB.Exec("UPDATE meetings SET presentation_url = NULL WHERE id = ?", meetingID)
+		c.JSON(http.StatusOK, gin.H{"has_presentation": false})
+		return
+	}
+
 	c.File(filePath)
 }
 
@@ -143,7 +155,7 @@ func DeletePresentation(c *gin.Context) {
 		return
 	}
 
-	filePath := "." + *presentationURL
+	filePath := "./" + *presentationURL
 	os.Remove(filePath)
 
 	_, err = db.DB.Exec("UPDATE meetings SET presentation_url = NULL WHERE id = ?", meetingID)

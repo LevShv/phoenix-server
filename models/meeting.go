@@ -10,6 +10,7 @@ type Meeting struct {
 	CreatedAt       int64   `json:"created_at"`
 	Status          string  `json:"status"`
 	PresentationURL *string `json:"presentation_url,omitempty"`
+	PhotoURL        *string `json:"photo_url,omitempty"`
 	Polls           []Poll  `json:"polls,omitempty"`
 }
 

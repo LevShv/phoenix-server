@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS meetings (
     speaker_id INTEGER NOT NULL,
     created_at INTEGER NOT NULL,
     status TEXT NOT NULL,
-    avatar BLOB,
     presentation_url TEXT,
+    photo_url TEXT,
     FOREIGN KEY (speaker_id) REFERENCES users(id) ON DELETE CASCADE
 );

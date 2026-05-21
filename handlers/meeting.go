@@ -40,7 +40,7 @@ func CreateMeeting(c *gin.Context) {
 	_, err := db.DB.Exec(`
         INSERT INTO meetings (id, title, description, location, start_date, speaker_id, created_at, status)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `, meetingID, req.Title, req.Description, req.Location, req.StartDate, userID, now, "active")
+    `, meetingID, req.Title, req.Description, req.Location, req.StartDate, userID, now, req.Status)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка создания встречи"})

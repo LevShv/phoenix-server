@@ -22,3 +22,7 @@ type CreateMeetingRequest struct {
 	StartDate   string `json:"start_date" binding:"required"`
 	Status      string `json:"status"`
 }
+
+type ChangeMeetingStatusRequest struct {
+	Status string `json:"status" binding:"required,oneof=active draft archive"`
+}

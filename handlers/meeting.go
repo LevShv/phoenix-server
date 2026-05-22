@@ -156,3 +156,37 @@ func GetMeetingByID(c *gin.Context) {
 
 	c.JSON(http.StatusOK, m)
 }
+
+func ChangeMeetingStatus(c *gin.Context) {
+	userType := c.GetString("user_type")
+	if userType != "speaker" {
+		c.JSON(http.StatusForbidden, gin.H{"error": "Только выступающие могут создавать встречи"})
+		return
+	}
+
+	userID := c.GetInt("user_id")
+	meetingID := c.Param("id")
+
+	var req models.ChangeMeetingStatusRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Неверный запрос"})
+		return
+	}
+
+	_, err := db.DB.Exec(`
+		UPDATE meetings
+		SET status = ?
+		WHERE id = ? AND speaker_id = ?
+	`, req.Status, meetingID, userID)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка изменения статуса"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"message":        "Статус изменен",
+		"meeting_id":     meetingID,
+		"meeting_status": req.Status,
+	})
+}

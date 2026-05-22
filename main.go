@@ -60,6 +60,7 @@ func main() {
 		api.GET("/meetings/:id/photo/info", handlers.GetMeetingPhotoInfo)
 		api.DELETE("/meetings/:id/photo", handlers.DeleteMeetingPhoto)
 
+		api.PATCH("/meetings/:id/status", handlers.ChangeMeetingStatus)
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

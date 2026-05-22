@@ -45,6 +45,8 @@ func main() {
 		api.GET("/meetings", handlers.GetAllMeetings)
 		api.GET("/meetings/my", handlers.GetMyMeetings)
 		api.GET("/meetings/:id", handlers.GetMeetingByID)
+		api.PATCH("/meetings/:id/status", handlers.ChangeMeetingStatus)
+		api.DELETE("/meetings/:id/", handlers.DeleteMeeting)
 
 		api.POST("/meetings/:id/polls", handlers.AddPoll)
 		api.GET("/meetings/:id/polls", handlers.GetMeetingPolls)
@@ -60,7 +62,6 @@ func main() {
 		api.GET("/meetings/:id/photo/info", handlers.GetMeetingPhotoInfo)
 		api.DELETE("/meetings/:id/photo", handlers.DeleteMeetingPhoto)
 
-		api.PATCH("/meetings/:id/status", handlers.ChangeMeetingStatus)
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

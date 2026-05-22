@@ -160,7 +160,7 @@ func GetMeetingByID(c *gin.Context) {
 func ChangeMeetingStatus(c *gin.Context) {
 	userType := c.GetString("user_type")
 	if userType != "speaker" {
-		c.JSON(http.StatusForbidden, gin.H{"error": "Только выступающие могут создавать встречи"})
+		c.JSON(http.StatusForbidden, gin.H{"error": "Только выступающие могут менять статус встречи"})
 		return
 	}
 
@@ -188,5 +188,30 @@ func ChangeMeetingStatus(c *gin.Context) {
 		"message":        "Статус изменен",
 		"meeting_id":     meetingID,
 		"meeting_status": req.Status,
+	})
+}
+
+func DeleteMeeting(c *gin.Context) {
+	userType := c.GetString("user_type")
+	if userType != "speaker" {
+		c.JSON(http.StatusForbidden, gin.H{"error": "Только выступающие могут удалять встречи"})
+		return
+	}
+
+	userID := c.GetInt("user_id")
+	meetingID := c.Param("id")
+
+	_, err := db.DB.Exec(`
+		DELETE FROM meetings
+		WHERE id = ? AND speaker_id = ?
+	`, meetingID, userID)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка удаления встрчи"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"message": "Встреча удалена",
 	})
 }

@@ -15,6 +15,7 @@ type Meeting struct {
 }
 
 type CreateMeetingRequest struct {
+	ID          string `json:"id" binding:"required"`
 	Title       string `json:"title" binding:"required"`
 	Description string `json:"description"`
 	Location    string `json:"location" binding:"required"`

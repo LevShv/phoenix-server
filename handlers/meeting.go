@@ -34,7 +34,7 @@ func CreateMeeting(c *gin.Context) {
 		return
 	}
 
-	meetingID := generateMeetingID()
+	meetingID := req.ID //generateMeetingID()
 	now := time.Now().Unix()
 
 	_, err := db.DB.Exec(`

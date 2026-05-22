@@ -1,4 +1,4 @@
-ii# Переменные
+# Переменные
 GOOS = linux
 GOARCH = amd64
 CGO_ENABLED = 1

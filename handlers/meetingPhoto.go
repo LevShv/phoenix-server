@@ -44,7 +44,7 @@ func UploadMeetingPhoto(c *gin.Context) {
 	allowedExt := map[string]bool{
 		".png":  true,
 		".jpg":  true,
-		".jprg": true,
+		".jpeg": true,
 	}
 	if !allowedExt[ext] {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Недопустимый формат файла"})
